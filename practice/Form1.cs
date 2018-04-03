@@ -12,7 +12,7 @@ using System.Windows.Forms;
 namespace practice
 {
     public partial class Form1 : Form
-    {
+    {        
         public enum OperateProcess { 
             LeftNum,
             RightNum,
@@ -69,6 +69,7 @@ namespace practice
         }
         private void btn0_Click(object sender, EventArgs e)
         {
+            
             //就比如这里
             //所有的数字都调用该方法,具体思路如下
             Button b = (Button)sender;
@@ -92,8 +93,14 @@ namespace practice
                     operateProcess = OperateProcess.RightNum;
                     break;
             }
-
-
+            //1.如果文本框中第一位是"0"只能输入"0.";
+            //2.如果文本框中第一位是"0"不能在输入"0";
+            //3.如果文本框中第一位是"0"输入其他数字"0"自动删除
+            if (tbOperateNumEditing.Text == "0")
+            {
+                tbOperateNumEditing.Text = "0.";
+            }
+            
             //1.检测第一操作数(左操作数)是否正在编辑中
      
         }
@@ -118,11 +125,10 @@ namespace practice
             {
                 //只有在有值并且在第一第二操作数编辑的情况下执行退格
                 if (operateProcess != OperateProcess.Result)
-                    //tbOperateNumEditing.Text = tbOperateNumEditing.Text.
-                    //    Substring(0, tbOperateNumEditing.Text.Length - 1);
-
+                {
                     tbOperateNumEditing.Text = tbOperateNumEditing.Text.Remove(tbOperateNumEditing.Text.Length - 1);
-
+                }
+                    
                 //tbOperateNumEditing.Text由于出现变更,赋值时需要小心在框中无值的情况
                 switch (operateProcess)
                 {
@@ -150,26 +156,6 @@ namespace practice
             }
 
 
-
-            //if(tbOperateNumEditing.Text.Length > 0)
-            //{
-            //    if (operateProcess == OperateProcess.LeftNum)
-            //    {
-            //        tbOperateNumEditing.Text = tbOperateNumEditing.Text.Substring(0, tbOperateNumEditing.Text.Length - 1);
-            //        leftNum = double.Parse(tbOperateNumEditing.Text);
-            //    }
-            //    else if (operateProcess == OperateProcess.RightNum)
-            //    {
-            //        tbOperateNumEditing.Text = tbOperateNumEditing.Text.Substring(0, tbOperateNumEditing.Text.Length - 1);
-            //        rightNum = double.Parse(tbOperateNumEditing.Text);
-            //    }
-            //    else
-            //    {
-            //        return;
-            //    }
-            //}
-
-
         }
         private void btndot_Click(object sender, EventArgs e)
         {
@@ -180,7 +166,7 @@ namespace practice
             }           
             if (tbOperateNumEditing.Text == "-")
             {
-                return;
+                tbOperateNumEditing.Text = "-0.";
             }
             if (tbOperateNumEditing.Text.IndexOf(".") >= 0)
             {
